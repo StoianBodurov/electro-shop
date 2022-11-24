@@ -10,7 +10,7 @@ from electroshop.accounts.models import Profile
 
 class RegisterUserView(SuccessMessageMixin, CreateView):
     template_name = 'auth/register.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home page')
     form_class = RegisterUserForm
     success_message = 'You are registered successfully'
     user = None
@@ -36,4 +36,4 @@ class UpdateUserProfile(UpdateView):
     model = Profile
     form_class = EditProfileForm
     template_name = 'auth/profile.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('home page')
