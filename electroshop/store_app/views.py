@@ -62,9 +62,7 @@ class DeleteItemView(DeleteView):
     context_object_name = 'item'
 
     def form_valid(self, form):
-        success_url = self.get_success_url()
         db_item = Item.objects.get(id=self.kwargs['pk'])
         image_path = join(settings.MEDIA_ROOT, str(db_item.image))
-        self.object.delete()
         os.remove(image_path)
-        return redirect(success_url)
+        return super().form_valid(form)
