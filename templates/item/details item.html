@@ -42,15 +42,32 @@
                         </div>
                         <p>{{ item.description }}</p>
                         <div class="add-to-cart">
-                            <div class="qty-label">
-                                Qty
-                                <div class="input-number">
-                                    <input type="number" value="1">
-                                    <span class="qty-up">+</span>
-                                    <span class="qty-down">-</span>
+
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'edit item' item.id %}">
+                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Edit
+                                    </button>
+                                    <a href="{% url 'delete item' item.id %}">
+                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Delete
+                                        </button>
+                                    </a>
+
+                                </a>
+
+                            {% else %}
+                                <div class="qty-label">
+                                    Qty
+                                    <div class="input-number">
+                                        <input type="number" value="1">
+                                        <span class="qty-up">+</span>
+                                        <span class="qty-down">-</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <a href="#">
+                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart
+                                    </button>
+                                </a>
+                            {% endif %}
                         </div>
 
                     </div>

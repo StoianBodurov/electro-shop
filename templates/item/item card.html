@@ -10,7 +10,7 @@
     </div>
     <div class="product-body">
         <p class="product-category">{{ item.categories }}</p>
-        <h3 class="product-name"><a href="#">{{ item.brand }} - {{ item.model }}</a></h3>
+        <h3 class="product-name"><a href="{% url 'details item' item.id%}">{{ item.brand }} - {{ item.model }}</a></h3>
         <h4 class="product-price">${{ item.price }}
             {#            <del class="product-old-price">$990.00</del>#}
         </h4>
@@ -30,6 +30,6 @@
         {#        </div>#}
     </div>
     <div class="add-to-cart">
-        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+        <a href="{% url 'details item' item.id%}"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Details</button></a>
     </div>
 </div>

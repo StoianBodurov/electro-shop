@@ -25,6 +25,25 @@ class LastAddedItemView(ListView):
         return context
 
 
+class ListItemByCategoriesView(ListView):
+    model = Item
+    template_name = 'store/store.html'
+    context_object_name = 'items'
+    paginate_by = 6
+    categories_name = ''
+
+    def get_queryset(self):
+        self.categories_name = self.kwargs['categorie']
+        if self.categories_name == 'all':
+            return Item.objects.order_by('-date_added')
+        return Item.objects.filter(categories=self.categories_name).order_by('-date_added')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_name'] = self.categories_name
+        return context
+
+
 class CreateItemView(CreateView):
     model = Item
     template_name = 'item/create item.html'

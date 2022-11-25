@@ -5,12 +5,15 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Cameras</a></li>
-                <li><a href="#">Accessories</a></li>
+                <li class="active"><a href="{% url 'home page' %}">Home</a></li>
+                <li><a href="{% url 'store page' 'all'%}">Categories</a></li>
+                <li><a href="{% url 'store page' 'laptops'%}">Laptops</a></li>
+                <li><a href="{% url 'store page' 'smartphones'%}">Smartphones</a></li>
+                <li><a href="{% url 'store page' 'cameras'%}">Cameras</a></li>
+                <li><a href="{% url 'store page' 'accessories'%}">Accessories</a></li>
+                {% if request.user.is_staff %}
+                    <li><a href="{% url 'create item' %}">Add Item</a></li>
+                {% endif %}
             </ul>
             <!-- /NAV -->
         </div>
