@@ -33,7 +33,7 @@ class ListItemByCategoriesView(ListView):
     categories_name = ''
 
     def get_queryset(self):
-        self.categories_name = self.kwargs['categorie']
+        self.categories_name = self.kwargs['categories']
         if self.categories_name == 'all':
             return Item.objects.order_by('-date_added')
         return Item.objects.filter(categories=self.categories_name).order_by('-date_added')
@@ -49,6 +49,12 @@ class CreateItemView(CreateView):
     template_name = 'item/create item.html'
     success_url = reverse_lazy('home page')
     form_class = CreateItemForm
+    categories_name = 'create_item'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_name'] = self.categories_name
+        return context
 
 
 class EditItemView(UpdateView):

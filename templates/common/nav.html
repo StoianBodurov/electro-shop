@@ -5,14 +5,42 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
+            {% if categories_name == 'home' %}
                 <li class="active"><a href="{% url 'home page' %}">Home</a></li>
-                <li><a href="{% url 'store page' 'all'%}">Categories</a></li>
-                <li><a href="{% url 'store page' 'laptops'%}">Laptops</a></li>
-                <li><a href="{% url 'store page' 'smartphones'%}">Smartphones</a></li>
-                <li><a href="{% url 'store page' 'cameras'%}">Cameras</a></li>
-                <li><a href="{% url 'store page' 'accessories'%}">Accessories</a></li>
+            {% else %}
+                <li><a href="{% url 'home page' %}">Home</a></li>
+            {% endif %}
+            {% if categories_name == 'all' %}
+                <li class="active"><a href="{% url 'store page' 'all' %}">Categories</a></li>
+            {% else %}
+                <li><a href="{% url 'store page' 'all' %}">Categories</a></li>
+            {% endif %}
+            {% if categories_name == 'laptops' %}
+                <li class="active"><a href="{% url 'store page' 'laptops' %}">Laptops</a></li>
+            {% else %}
+                <li><a href="{% url 'store page' 'laptops' %}">Laptops</a></li>
+            {% endif %}
+            {% if categories_name == 'smartphones' %}
+                <li class="active"><a href="{% url 'store page' 'smartphones' %}">Smartphones</a></li>
+            {% else %}
+                <li><a href="{% url 'store page' 'smartphones' %}">Smartphones</a></li>
+            {% endif %}
+            {% if categories_name == 'cameras' %}
+                <li class="active"><a href="{% url 'store page' 'cameras' %}">Cameras</a></li>
+            {% else %}
+                <li><a href="{% url 'store page' 'cameras' %}">Cameras</a></li>
+            {% endif %}
+            {% if categories_name == 'accessories' %}
+                <li class="active"><a href="{% url 'store page' 'accessories' %}">Accessories</a></li>
+            {% else %}
+                <li><a href="{% url 'store page' 'accessories' %}">Accessories</a></li>
+            {% endif %}
                 {% if request.user.is_staff %}
-                    <li><a href="{% url 'create item' %}">Add Item</a></li>
+                    {% if categories_name == 'create_item' %}
+                        <li class="active"><a href="{% url 'create item' %}">Add Item</a></li>
+                    {% else %}
+                        <li><a href="{% url 'create item' %}">Add Item</a></li>
+                    {% endif %}
                 {% endif %}
             </ul>
             <!-- /NAV -->
