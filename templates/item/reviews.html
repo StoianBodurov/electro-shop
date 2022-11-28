@@ -1,0 +1,64 @@
+<div class="col-md-6">
+    <div id="reviews">
+        <ul class="reviews">
+            {% for review in reviews %}
+
+                <li>
+                    <div class="review-heading">
+                        <h5 class="name">{{ review.user.email }}</h5>
+                        <p class="date">{{ review.date_added }}</p>
+                        <div class="review-rating">
+                            {% if review.rating < 1 %}
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            {% elif review.rating < 2 %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            {% elif review.rating < 3 %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            {% elif review.rating < 4 %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            {% elif review.rating < 5 %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o empty"></i>
+                            {% else %}
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="review-body">
+                        <p>{{ review.review }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {#        <ul class="reviews-pagination">#}
+        {#            <li class="active">1</li>#}
+        {#            <li><a href="#">2</a></li>#}
+        {#            <li><a href="#">3</a></li>#}
+        {#            <li><a href="#">4</a></li>#}
+        {#            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>#}
+        {#        </ul>#}
+    </div>
+</div>

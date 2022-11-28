@@ -2,10 +2,13 @@ import os
 from os.path import join
 
 from django.conf import settings
+from django.db.models import Avg
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 
+from electroshop.common.forms import ReviewForm
+from electroshop.common.models import Review
 from electroshop.store_app.forms import CreateItemForm, EditItemForm
 from electroshop.store_app.models import Item
 
@@ -78,6 +81,24 @@ class DetailsItemView(DetailView):
     model = Item
     context_object_name = 'item'
     template_name = 'item/details item.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        item = context['item']
+        reviews = Review.objects.filter(item_id=item.id).order_by('date_added')
+
+        average_rating = reviews.aggregate(Avg('rating'))
+        context['reviews'] = reviews
+        context['average_rating'] = 0
+        if average_rating['rating__avg']:
+            context['average_rating'] = round(average_rating['rating__avg'], 1)
+
+        context['review_form'] = ReviewForm(
+            initial={
+                'item_id': self.object.id
+            }
+        )
+        return context
 
 
 class DeleteItemView(DeleteView):

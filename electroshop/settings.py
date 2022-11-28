@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'electroshop.accounts',
     'electroshop.store_app',
+    'electroshop.common',
 ]
 
 MIDDLEWARE = [
