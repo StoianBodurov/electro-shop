@@ -43,8 +43,7 @@ class ItemForm(forms.ModelForm):
             ),
             'image': forms.FileInput(
                 attrs={
-                    'class': 'input form-control',
-                    'placeholder': 'Select Image',
+                    'class': 'custom-file-upload',
                 }
             ),
             'in_stock': forms.RadioSelect(
@@ -103,8 +102,7 @@ class EditItemForm(ItemForm):
             ),
             'image': forms.FileInput(
                 attrs={
-                    'class': 'input form-control',
-                    'placeholder': 'Select Image',
+                    'class': 'custom-file-input',
                 }
             ),
             'in_stock': forms.RadioSelect(

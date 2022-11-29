@@ -22,3 +22,10 @@ class ReviewForm(forms.ModelForm):
                 (5, 5)
             ))
         }
+
+
+class FilterItemForm(forms.Form):
+    categories = forms.CheckboxInput()
+    price_min = forms.NumberInput()
+    price_max = forms.NumberInput()
+    brand = forms.CheckboxInput()

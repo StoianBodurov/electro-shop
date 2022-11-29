@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views import View
+from django.views.generic import ListView
 from django.views.generic.list import MultipleObjectMixin
 
-from electroshop.common.forms import ReviewForm
+from electroshop.common.forms import ReviewForm, FilterItemForm
 from electroshop.common.models import Review
 from electroshop.store_app.models import Item
 
@@ -30,3 +31,26 @@ class ItemReviewView(MultipleObjectMixin, View):
         )
         review.save()
         return redirect('details item', item.id)
+
+
+class FilterListView(ListView):
+    model = Item
+    form_class = FilterItemForm
+    template_name = 'store/filter result.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        categories = self.request.GET.get('categories')
+        price_min = float(self.request.GET.get('price_min'))
+        price_max = float(self.request.GET.get('price_max'))
+        brand = self.request.GET.get('brand') if self.request.GET.get('brand') else 'other'
+
+        if not categories:
+            if brand == 'other':
+                return Item.objects.filter(price__gt=price_min, price__lte=price_max)
+            return Item.objects.filter(price__gt=price_min, price__lte=price_max, brand__icontains=brand)
+        else:
+            if brand == 'other':
+                return Item.objects.filter(categories__icontains=categories, price__gt=price_min, price__lte=price_max)
+            return Item.objects.filter(categories__icontains=categories, price__gt=price_min, price__lte=price_max,
+                                       brand__icontains=brand)
