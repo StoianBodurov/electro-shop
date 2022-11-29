@@ -23,6 +23,9 @@ class Item(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 
+from .signals import *
+
+
 class Order(models.Model):
     status = models.CharField(
         choices=(
@@ -36,3 +39,5 @@ class Order(models.Model):
     quantity = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+
+

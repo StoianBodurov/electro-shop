@@ -1,9 +1,4 @@
-import os
-from os.path import join
-
-from django.conf import settings
 from django.db.models import Avg
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 
@@ -64,17 +59,7 @@ class EditItemView(UpdateView):
     model = Item
     form_class = EditItemForm
     template_name = 'item/edit item.html'
-
-    def form_valid(self, form):
-        db_item = Item.objects.get(id=self.kwargs['pk'])
-        image_path = join(settings.MEDIA_ROOT, str(db_item.image))
-
-        for field, value in form.cleaned_data.items():
-            setattr(db_item, field, value)
-            db_item.save()
-
-        os.remove(image_path)
-        return redirect('home page')
+    success_url = reverse_lazy('home page')
 
 
 class DetailsItemView(DetailView):
@@ -106,9 +91,3 @@ class DeleteItemView(DeleteView):
     template_name = 'item/delete item.html'
     success_url = reverse_lazy('home page')
     context_object_name = 'item'
-
-    def form_valid(self, form):
-        db_item = Item.objects.get(id=self.kwargs['pk'])
-        image_path = join(settings.MEDIA_ROOT, str(db_item.image))
-        os.remove(image_path)
-        return super().form_valid(form)
