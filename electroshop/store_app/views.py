@@ -1,11 +1,14 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Avg
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 
 from electroshop.common.forms import ReviewForm
 from electroshop.common.models import Review
-from electroshop.store_app.forms import CreateItemForm, EditItemForm
-from electroshop.store_app.models import Item
+from electroshop.store_app.forms import CreateItemForm, EditItemForm, OrderForm
+from electroshop.store_app.models import Item, Order
 
 
 class LastAddedItemView(ListView):
@@ -91,3 +94,25 @@ class DeleteItemView(DeleteView):
     template_name = 'item/delete item.html'
     success_url = reverse_lazy('home page')
     context_object_name = 'item'
+
+
+class AddItemToOrderView(LoginRequiredMixin, View):
+    model = Order
+    form_class = OrderForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return self.form_valid(form)
+
+    def form_valid(self, form):
+        user = self.request.user
+        item = Item.objects.get(pk=self.kwargs['pk'])
+        order = Order(
+            quantity=form.cleaned_data['quantity'],
+            item=item,
+            user=user
+        )
+        order.save()
+        return redirect('details item', item.id)
+

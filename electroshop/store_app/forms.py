@@ -4,7 +4,7 @@ from os.path import join
 from django import forms
 from django.conf import settings
 
-from electroshop.store_app.models import Item
+from electroshop.store_app.models import Item, Order
 
 
 class ItemForm(forms.ModelForm):
@@ -116,3 +116,11 @@ class EditItemForm(ItemForm):
 
 class DeleteItemForm(ItemForm):
     pass
+
+
+class OrderForm(forms.Form):
+    quantity = forms.IntegerField()
+
+    class Meta:
+        model = Order
+        fields = ('quantity',)
