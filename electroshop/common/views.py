@@ -1,9 +1,10 @@
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.list import MultipleObjectMixin
 
-from electroshop.common.forms import ReviewForm, FilterItemForm
+from electroshop.common.forms import ReviewForm, FilterItemForm, SearchBarForm
 from electroshop.common.models import Review
 from electroshop.store_app.models import Item
 
@@ -36,8 +37,9 @@ class ItemReviewView(MultipleObjectMixin, View):
 class FilterListView(ListView):
     model = Item
     form_class = FilterItemForm
-    template_name = 'store/filter result.html'
+    template_name = 'store/store.html'
     paginate_by = 6
+    context_object_name = 'items'
 
     def get_queryset(self):
         categories = self.request.GET.get('categories')
@@ -54,3 +56,22 @@ class FilterListView(ListView):
                 return Item.objects.filter(categories__icontains=categories, price__gt=price_min, price__lte=price_max)
             return Item.objects.filter(categories__icontains=categories, price__gt=price_min, price__lte=price_max,
                                        brand__icontains=brand)
+
+
+class SearchListView(ListView):
+    model = Item
+    form_class = SearchBarForm
+    template_name = 'store/store.html'
+    context_object_name = 'items'
+    paginate_by = 6
+
+    def get_queryset(self):
+        search_text = self.request.GET.get('search_text')
+        categories = self.request.GET.get('categories')
+
+        if categories == 'all':
+            return Item.objects.filter(Q(categories__icontains=search_text) | Q(model__icontains=search_text) |
+                                       Q(brand__icontains=search_text))
+
+        return Item.objects.filter(
+            Q(categories__iexact=categories) & (Q(model__icontains=search_text) | Q(brand__icontains=search_text)))
