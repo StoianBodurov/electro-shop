@@ -1,7 +1,6 @@
 from django import template
-from django.db.models import Sum
 
-from electroshop.store_app.models import Item, Order
+from electroshop.store_app.models import Order
 
 register = template.Library()
 

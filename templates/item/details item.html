@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load rating_stars %}
 
 
 {% block content %}
@@ -23,11 +24,7 @@
                         <h2 class="product-name">{{ item.brand }} - {{ item.model }}</h2>
                         <div>
                             <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
+                                {% rating_stars item %}
                             </div>
                             <a class="review-link" data-toggle="tab" href="#tab3">{{ reviews.count }} Review(s) | Add
                                 your review</a>
@@ -110,112 +107,9 @@
                                             <div class="rating-avg">
                                                 <span>{{ average_rating }}</span>
                                                 <div class="rating-stars">
-                                                    {% if not average_rating or average_rating < 1 %}
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    {% elif average_rating < 2 %}
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    {% elif average_rating < 3 %}
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    {% elif average_rating < 4 %}
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    {% elif average_rating < 5 %}
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-о"></i>
-                                                    {% else %}
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    {% endif %}
+                                                    {% rating_stars item  %}
                                                 </div>
                                             </div>
-                                            {#                                            <ul class="rating">#}
-                                            {#                                                <li>#}
-                                            {#                                                    <div class="rating-stars">#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="rating-progress">#}
-                                            {#                                                        <div style="width: 80%;"></div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <span class="sum">3</span>#}
-                                            {#                                                </li>#}
-                                            {#                                                <li>#}
-                                            {#                                                    <div class="rating-stars">#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="rating-progress">#}
-                                            {#                                                        <div style="width: 60%;"></div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <span class="sum">2</span>#}
-                                            {#                                                </li>#}
-                                            {#                                                <li>#}
-                                            {#                                                    <div class="rating-stars">#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="rating-progress">#}
-                                            {#                                                        <div></div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <span class="sum">0</span>#}
-                                            {#                                                </li>#}
-                                            {#                                                <li>#}
-                                            {#                                                    <div class="rating-stars">#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="rating-progress">#}
-                                            {#                                                        <div></div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <span class="sum">0</span>#}
-                                            {#                                                </li>#}
-                                            {#                                                <li>#}
-                                            {#                                                    <div class="rating-stars">#}
-                                            {#                                                        <i class="fa fa-star"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                        <i class="fa fa-star-o"></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <div class="rating-progress">#}
-                                            {#                                                        <div></div>#}
-                                            {#                                                    </div>#}
-                                            {#                                                    <span class="sum">0</span>#}
-                                            {#                                                </li>#}
-                                            {#                                            </ul>#}
                                         </div>
                                     </div>
                                     <!-- /Rating -->

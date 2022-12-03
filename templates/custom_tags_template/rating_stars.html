@@ -1,0 +1,37 @@
+{% if not avg_rating or avg_rating < 1 %}
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+{% elif avg_rating < 2 %}
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+{% elif avg_rating < 3 %}
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+{% elif avg_rating < 4 %}
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star-o"></i>
+    <i class="fa fa-star-o"></i>
+{% elif avg_rating < 5 %}
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star-о"></i>
+{% else %}
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+    <i class="fa fa-star"></i>
+{% endif %}
