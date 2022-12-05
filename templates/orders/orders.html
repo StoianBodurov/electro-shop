@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_css %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom_css/orders.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-5 order-details col-md-offset-3">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Card</h3>
+                    </div>
+                    {% if not orders %}
+                        <div class="section-title text-center"><h3>Your Card is Empty</h3></div>
+                        <a href="{% url 'store page' 'all' %}" class="primary-btn order-submit">Go to shop</a>
+                    {% else %}
+                        <div class="order-products">
+                            {% for order in orders %}
+                                <form method="post" action="{% url 'orders remove' order.id %}">
+                                    {% csrf_token %}
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <img src="{{ order.item.image.url }}" alt="{{ order.item.image }}">
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a
+                                                    href="{% url 'details item' order.item.id %}">{{ order.item.brand }}-{{ order.item.model }}</a>
+                                            </h3>
+                                            <h4 class="product-price"><span
+                                                    class="qty">{{ order.quantity }}x</span>${{ order.item.price }}
+                                            </h4>
+                                        </div>
+                                        <button type="submit" class="delete"><i class="fa fa-close"></i></button>
+                                    </div>
+                                </form>
+                            {% endfor %}
+                            <div class="order-col">
+                                <div><strong>TOTAL</strong></div>
+                                <div><strong class="order-total">${{ total_price }}</strong></div>
+                            </div>
+                            <a href="#" class="primary-btn order-submit">Checkout</a>
+                            <a href="{% url 'store page' 'all' %}" class="primary-btn order-submit">Continue
+                                shopping</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

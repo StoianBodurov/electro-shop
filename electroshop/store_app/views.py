@@ -9,6 +9,7 @@ from electroshop.common.forms import ReviewForm
 from electroshop.common.models import Review
 from electroshop.store_app.forms import CreateItemForm, EditItemForm, OrderForm
 from electroshop.store_app.models import Item, Order
+from electroshop.store_app.utils.helpers import get_order_total_price
 
 
 class LastAddedItemView(ListView):
@@ -116,3 +117,31 @@ class AddItemToOrderView(LoginRequiredMixin, View):
         order.save()
         return redirect('details item', item.id)
 
+
+class OrdersListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'orders/orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Order.objects.filter(user_id=user.id, status='added')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders = context['orders']
+        total_price = get_order_total_price(orders)
+        context['total_price'] = total_price
+
+        return context
+
+
+class OrderRemove(LoginRequiredMixin, View):
+    model = Order
+
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(id=kwargs['pk'])
+        order.status = 'canceled'
+        order.save()
+        return redirect('orders list')

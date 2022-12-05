@@ -11,7 +11,7 @@
                 <li><a href="{% url 'home page' %}">Home</a></li>
             {% endif %}
             {% if categories_name == 'all' %}
-                <li class="active"><a href="{% url 'store page' 'all' %}">Categories</a></li>
+                <li class="active"><a href="{% url 'store page' 'all' %}">All Categories</a></li>
             {% else %}
                 <li><a href="{% url 'store page' 'all' %}">Categories</a></li>
             {% endif %}
