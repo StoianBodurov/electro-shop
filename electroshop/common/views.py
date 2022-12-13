@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.views import View
@@ -9,7 +10,7 @@ from electroshop.common.models import Review
 from electroshop.store_app.models import Item
 
 
-class ItemReviewView(MultipleObjectMixin, View):
+class ItemReviewView(LoginRequiredMixin, MultipleObjectMixin, View):
     form_class = ReviewForm
     context_object_name = 'reviews'
 

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.db.models import Avg
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -70,13 +71,19 @@ class DetailsItemView(DetailView):
     model = Item
     context_object_name = 'item'
     template_name = 'item/details item.html'
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         item = context['item']
         reviews = Review.objects.filter(item_id=item.id).order_by('date_added')
 
+        paginator = Paginator(reviews, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         average_rating = reviews.aggregate(Avg('rating'))
+        context['page_obj'] = page_obj
         context['reviews'] = reviews
         context['average_rating'] = 0
         if average_rating['rating__avg']:

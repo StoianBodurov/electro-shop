@@ -1,7 +1,7 @@
 <div class="col-md-6">
     <div id="reviews">
         <ul class="reviews">
-            {% for review in reviews %}
+            {% for review in page_obj %}
 
                 <li>
                     <div class="review-heading">
@@ -53,12 +53,15 @@
                 </li>
             {% endfor %}
         </ul>
-        {#        <ul class="reviews-pagination">#}
-        {#            <li class="active">1</li>#}
-        {#            <li><a href="#">2</a></li>#}
-        {#            <li><a href="#">3</a></li>#}
-        {#            <li><a href="#">4</a></li>#}
-        {#            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>#}
-        {#        </ul>#}
+        <ul class="reviews-pagination">
+            {% if page_obj.has_previous %}
+                <li><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
+                <li><a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa fa-angle-double-right"></i></a></li>
+            {% endif %}
+        </ul>
     </div>
 </div>
