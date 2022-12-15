@@ -8,6 +8,7 @@ from django.views.generic import ListView, UpdateView, CreateView, DetailView, D
 
 from electroshop.common.forms import ReviewForm
 from electroshop.common.models import Review
+from electroshop.store_app.core.view_mixin import UserIsStaffMixin
 from electroshop.store_app.forms import CreateItemForm, EditItemForm, OrderForm
 from electroshop.store_app.models import Item, Order
 from electroshop.store_app.utils.helpers import get_order_total_price
@@ -47,7 +48,7 @@ class ListItemByCategoriesView(ListView):
         return context
 
 
-class CreateItemView(CreateView):
+class CreateItemView(UserIsStaffMixin, CreateView):
     model = Item
     template_name = 'item/create item.html'
     success_url = reverse_lazy('home page')
@@ -60,7 +61,7 @@ class CreateItemView(CreateView):
         return context
 
 
-class EditItemView(UpdateView):
+class EditItemView(UserIsStaffMixin, UpdateView):
     model = Item
     form_class = EditItemForm
     template_name = 'item/edit item.html'
@@ -97,7 +98,7 @@ class DetailsItemView(DetailView):
         return context
 
 
-class DeleteItemView(DeleteView):
+class DeleteItemView(UserIsStaffMixin, DeleteView):
     model = Item
     template_name = 'item/delete item.html'
     success_url = reverse_lazy('home page')
