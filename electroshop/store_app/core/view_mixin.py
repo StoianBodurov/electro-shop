@@ -8,9 +8,12 @@ class UserIsStaffMixin(PermissionRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         user = request.user
         if not user.is_staff:
-            logout(request)
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
+
+    def has_permission(self):
+
+        return self.request.user.is_staff
 
 
 

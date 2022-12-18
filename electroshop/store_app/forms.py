@@ -60,12 +60,16 @@ class CreateItemForm(ItemForm):
 
 
 class EditItemForm(ItemForm):
-    def save(self, commit=True):
-        db_item = Item.objects.get(pk=self.instance.id)
-        if commit:
-            image_path = join(settings.MEDIA_ROOT, str(db_item.image))
-            os.remove(image_path)
-        return super().save(commit)
+    # def save(self, commit=True):
+    #     db_item = Item.objects.get(pk=self.instance.id)
+    #     if commit:
+    #         image_path = join(settings.MEDIA_ROOT, str(db_item.image))
+    #         try:
+    #             os.remove(image_path)
+    #         except:
+    #             pass
+    #
+    #     return super().save(commit)
 
     class Meta:
         model = Item
