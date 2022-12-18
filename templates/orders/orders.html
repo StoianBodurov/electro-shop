@@ -19,7 +19,7 @@
                     {% else %}
                         <div class="order-products">
                             {% for order in orders %}
-                                <form method="post" action="{% url 'orders remove' order.id %}">
+                                <form method="post" action="{% url 'order remove' order.id %}">
                                     {% csrf_token %}
                                     <div class="product-widget">
                                         <div class="product-img">

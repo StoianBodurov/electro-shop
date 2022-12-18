@@ -12,5 +12,5 @@ urlpatterns = (
     path('store/<str:categories>', ListItemByCategoriesView.as_view(), name='store page'),
     path('addorder/<int:pk>', AddItemToOrderView.as_view(), name='add order'),
     path('orders_list/', OrdersListView.as_view(), name='orders list'),
-    path('order_remove/<int:pk>', OrderRemove.as_view(), name='orders remove'),
+    path('order_remove/<int:pk>', OrderRemove.as_view(), name='order remove'),
 )
