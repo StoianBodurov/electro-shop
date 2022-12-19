@@ -25,12 +25,18 @@ class ItemReviewView(LoginRequiredMixin, MultipleObjectMixin, View):
         if not rating:
             rating = 0
 
-        review = Review(
-            review=form.cleaned_data['review'],
-            rating=rating,
-            item=item,
-            user=self.request.user
-        )
+        reviews = Review.objects.filter(item_id=item.id, user_id=self.request.user)
+        if not reviews:
+            review = Review(
+                review=form.cleaned_data['review'],
+                rating=rating,
+                item=item,
+                user=self.request.user
+            )
+        else:
+            review = reviews[0]
+            review.rating = rating
+            review.review = form.cleaned_data['review']
         review.save()
         return redirect('details item', item.id)
 
