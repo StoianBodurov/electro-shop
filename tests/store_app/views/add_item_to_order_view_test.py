@@ -6,6 +6,7 @@ from electroshop.store_app.models import Item, Order
 
 UserModel = get_user_model()
 
+
 class TestAddItemToOrderView(TestCase):
     ITEM_DATA = {
         'categories': 'laptops',
@@ -26,8 +27,9 @@ class TestAddItemToOrderView(TestCase):
 
     def test_add_item_to_order_when_not_logged_in_user_expect_redirect(self):
         item = Item.objects.all()[0]
-        response = self.client.post(reverse('add order', kwargs={'pk': item.id}))
-
+        response = self.client.post(reverse('add order', kwargs={'pk': item.id}), data={'quantity': 1})
+        orders = Order.objects.all()
+        self.assertEqual(len(orders), 0)
         self.assertEqual(response.status_code, 302)
 
     def test_add_item_to_order_when_logged_in_user_expect_add_to_order(self):
@@ -42,6 +44,3 @@ class TestAddItemToOrderView(TestCase):
         self.assertEqual(user.id, order.user.id)
         self.assertEqual(order.quantity, order_quantity)
         self.assertEqual(order.status, 'added')
-
-
-
