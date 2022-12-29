@@ -41,7 +41,7 @@
                                 <div><strong>TOTAL</strong></div>
                                 <div><strong class="order-total">${{ total_price }}</strong></div>
                             </div>
-                            <a href="#" class="primary-btn order-submit">Checkout</a>
+                            <a href="{% url 'order checkout' %}" class="primary-btn order-submit">Checkout</a>
                             <a href="{% url 'store page' 'all' %}" class="primary-btn order-submit">Continue
                                 shopping</a>
                         </div>

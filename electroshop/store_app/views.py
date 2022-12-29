@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
+from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView, TemplateView
 
 from electroshop.common.forms import ReviewForm
 from electroshop.common.models import Review
@@ -117,14 +118,15 @@ class AddItemToOrderView(LoginRequiredMixin, View):
     def form_valid(self, form):
         user = self.request.user
         item = Item.objects.get(pk=self.kwargs['pk'])
-        order = Order(
-            quantity=form.cleaned_data['quantity'],
-            item=item,
-            user=user
-        )
-        order.save()
-        return redirect('details item', item.id)
-
+        if item.in_stock:
+            order = Order(
+                quantity=form.cleaned_data['quantity'],
+                item=item,
+                user=user
+            )
+            order.save()
+            return redirect('details item', item.id)
+        return HttpResponseNotFound('Item not in stock.')
 
 class OrdersListView(LoginRequiredMixin, ListView):
     model = Order
@@ -153,3 +155,27 @@ class OrderRemove(LoginRequiredMixin, View):
         order.status = 'canceled'
         order.save()
         return redirect('orders list')
+
+class CheckOutView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+
+        user = self.request.user
+        orders = Order.objects.filter(user_id=user.id, status='added')
+
+        for order in  orders:
+            order.status = 'confirmed'
+            order.save()
+        return redirect('history orders')
+
+
+class OrdersHistoryView(ListView):
+    model = Order
+    context_object_name = 'orders'
+    template_name = 'orders/history orders.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        user = self.request.user
+        orders = Order.objects.filter(user_id=user.id).order_by('-date_added')
+        return orders

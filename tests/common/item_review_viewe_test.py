@@ -66,7 +66,10 @@ class TestItemReviewView(TestCase):
 
         review = Review.objects.create(**review_data)
         self.client.login(**self.USER_DATA)
-        res = self.client.post(reverse('review item', kwargs={'pk': self.item.id}), data=new_review_data)
-
+        self.client.post(reverse('review item', kwargs={'pk': self.item.id}), data=new_review_data)
         new_review = Review.objects.filter(item_id=self.item.id).get()
+
         self.assertEquals(review, new_review)
+        self.assertEquals(review.user, new_review.user)
+        self.assertNotEqual(review.review, new_review.review)
+        self.assertNotEqual(review.rating, new_review.rating)

@@ -54,6 +54,7 @@
                                 </a>
 
                             {% else %}
+                                {% if item.in_stock %}
                                 <form method="POST" action="{% url 'add order' item.id%}">
                                 {% csrf_token %}
                                 <div class="qty-label">
@@ -69,6 +70,7 @@
                                     </button>
                                 </a>
                                 </form>
+                                    {% endif %}
                             {% endif %}
                         </div>
 

@@ -1,7 +1,8 @@
 from django.urls import path
 
 from electroshop.store_app.views import LastAddedItemView, CreateItemView, EditItemView, DetailsItemView, \
-    DeleteItemView, ListItemByCategoriesView, AddItemToOrderView, OrdersListView, OrderRemove
+    DeleteItemView, ListItemByCategoriesView, AddItemToOrderView, OrdersListView, OrderRemove, CheckOutView, \
+    OrdersHistoryView
 
 urlpatterns = (
     path('', LastAddedItemView.as_view(), name='home page'),
@@ -13,4 +14,6 @@ urlpatterns = (
     path('addorder/<int:pk>', AddItemToOrderView.as_view(), name='add order'),
     path('orders_list/', OrdersListView.as_view(), name='orders list'),
     path('order_remove/<int:pk>', OrderRemove.as_view(), name='order remove'),
+    path('checkout/', CheckOutView.as_view(), name='order checkout'),
+    path('history/', OrdersHistoryView.as_view(), name='history orders'),
 )
