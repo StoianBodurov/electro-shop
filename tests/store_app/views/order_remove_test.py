@@ -14,6 +14,7 @@ class TestOrderRemove(TestCase):
         'description': 'description',
         'price': 12.56,
         'image': 'path/to.image.img',
+        'in_stock': True
     }
 
     USER_DATA = {

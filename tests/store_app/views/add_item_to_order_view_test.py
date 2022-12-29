@@ -32,11 +32,13 @@ class TestAddItemToOrderView(TestCase):
         self.assertEqual(len(orders), 0)
         self.assertEqual(response.status_code, 302)
 
-    def test_add_item_to_order_when_logged_in_user_expect_add_to_order(self):
+    def test_add_item_to_order_when_logged_in_user_and_item_in_stock_expect_add_to_order(self):
         order_quantity = 3
         user = UserModel.object.create_user(**self.USER_DATA)
         self.client.login(**self.USER_DATA)
         item = Item.objects.all()[0]
+        item.in_stock = True
+        item.save()
 
         self.client.post(reverse('add order', kwargs={'pk': item.id}), data={'user': user, 'quantity': order_quantity})
 
@@ -44,3 +46,15 @@ class TestAddItemToOrderView(TestCase):
         self.assertEqual(user.id, order.user.id)
         self.assertEqual(order.quantity, order_quantity)
         self.assertEqual(order.status, 'added')
+
+    def test_add_item_to_order_when_logged_in_user_and_item_not_in_stock_expect_404(self):
+        order_quantity = 3
+        user = UserModel.object.create_user(**self.USER_DATA)
+        self.client.login(**self.USER_DATA)
+        item = Item.objects.all()[0]
+
+        response = self.client.post(reverse('add order', kwargs={'pk': item.id}), data={'user': user, 'quantity': order_quantity})
+
+        orders = Order.objects.all()
+        self.assertEqual(len(orders), 0)
+        self.assertEqual(response.status_code, 404)
